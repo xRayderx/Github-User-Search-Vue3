@@ -1,1 +1,1 @@
-# Github-User-Search-Vue3
+Aplicacion de busqueda de usuarios en Github
