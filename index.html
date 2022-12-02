@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Curso Vue.js 3 | Github Search</title>
+
+        <!--Estilos-->
+        <link rel="stylesheet" href="css/main.css">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- Favoritos -->
+            <div class="favorites">
+                <transition-group name="list">
+                    <div 
+                    class="favorite" 
+                    :class="{'favorite--selected': checkFavorite(favorite.login)}"
+                    v-for="favorite in allFavorites" :key="favorite.id">
+                        <a @click.prevent="showFavorite(favorite)" href="#" target="_blank">
+                            <img :src="favorite.avatar_url" :alt="favorite.name" class="favorite__avatar">
+                        </a>          
+                    </div>
+                </transition-group>
+            </div>
+
+            <!-- Contenido -->
+            <article class="content">
+                <h1 class="content__title">Buscar Usuarios Github</h1>
+
+                <!--Busqueda-->
+                <form class="search" v-on:submit.prevent="doSearch">
+                    <input v-model="search" type="text" class="search__input" placeholder="Buscar usuarios de Github..." required/>
+                    <input type="submit" class="search__submit" value="Buscar"/>
+                </form>
+
+                <!-- Resultado -->
+                <transition>
+                   <app-profile 
+                        v-if="result" 
+                        :result="result"
+                        :is-favorite="isFavorite"
+                        @add-favorite="addFavorite"
+                        @remove-favorite="removeFavorite"/>
+                </transition>
+
+                <!-- Error -->
+                <div class="result__error" v-if="error">{{error}}</div>
+            </article>
+        </div>
+        <script src="js/main.js"></script>
+        <script src="js/componentes/AppProfile.js"></script>
+        <script>
+            const mountedApp = app.mount("#app");
+        </script>
+    </body>
+</html>
